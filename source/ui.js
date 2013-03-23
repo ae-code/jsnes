@@ -51,7 +51,9 @@ if (typeof jQuery !== 'undefined') {
                     pause: $('<input type="button" value="pause" class="nes-pause" disabled="disabled">').appendTo(self.controls),
                     restart: $('<input type="button" value="restart" class="nes-restart" disabled="disabled">').appendTo(self.controls),
                     sound: $('<input type="button" value="enable sound" class="nes-enablesound">').appendTo(self.controls),
-                    zoom: $('<input type="button" value="zoom in" class="nes-zoom">').appendTo(self.controls)
+                    zoom: $('<input type="button" value="zoom in" class="nes-zoom">').appendTo(self.controls),
+                    save: $('<input type="button" value="save" class="nes-save">').appendTo(self.controls),
+                    load: $('<input type="button" value="load" class="nes-load">').appendTo(self.controls)
                 };
                 self.status = $('<p class="nes-status">Booting up...</p>').appendTo(self.root);
                 self.root.appendTo(parent);
@@ -76,6 +78,28 @@ if (typeof jQuery !== 'undefined') {
                         self.nes.start();
                         self.buttons.pause.attr("value", "pause");
                     }
+                });
+                
+                self.buttons.save.click(function() {
+                    if (self.nes.isRunning) {
+                        self.buttons.pause.click();
+                        var state = self.nes.toJSON();
+                        localStorage[self.romName] = JSON.stringify(state);
+                        self.buttons.pause.click();
+                    }
+                });
+                
+                self.buttons.load.click(function() {
+                    if (!localStorage[self.romName]) {
+                        self.updateStatus("No Previously Saved State");
+                        return;
+                    }
+                    if (self.nes.isRunning)
+                        self.nes.stop();
+                    
+                    var state = localStorage[self.romName];
+                    self.nes.fromJSON(JSON.parse(state));
+                    self.nes.start();
                 });
         
                 self.buttons.restart.click(function() {
@@ -152,8 +176,8 @@ if (typeof jQuery !== 'undefined') {
                 }
                 
                 self.canvasImageData = self.canvasContext.getImageData(0, 0, 256, 240);
-                self.resetCanvas();
             
+                self.resetCanvas();
                 /*
                  * Keyboard
                  */
@@ -180,8 +204,9 @@ if (typeof jQuery !== 'undefined') {
                 loadROM: function() {
                     var self = this;
                     self.updateStatus("Downloading...");
+                    self.romName = self.romSelect.val();
                     $.ajax({
-                        url: escape(self.romSelect.val()),
+                        url: escape(self.romName),
                         xhr: function() {
                             var xhr = $.ajaxSettings.xhr();
                             if (typeof xhr.overrideMimeType !== 'undefined') {
@@ -286,6 +311,7 @@ if (typeof jQuery !== 'undefined') {
 
                     this.canvasContext.putImageData(this.canvasImageData, 0, 0);
                 }
+
             };
         
             return UI;
