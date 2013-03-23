@@ -26,6 +26,17 @@ JSNES.DummyUI = function(nes) {
 
 if (typeof jQuery !== 'undefined') {
     (function($) {
+      function supportsLocalStorage() {
+	// taken from Modernizr
+        try {
+	  localStorage.setItem("test_key", "test");
+	  localStorage.removeItem("test_key");
+	  return true;
+        } catch(e) {
+	  return false;
+        }
+      }
+
         $.fn.JSNESUI = function(roms) {
             var parent = this;
             var UI = function(nes) {
@@ -52,12 +63,19 @@ if (typeof jQuery !== 'undefined') {
                     restart: $('<input type="button" value="restart" class="nes-restart" disabled="disabled">').appendTo(self.controls),
                     sound: $('<input type="button" value="enable sound" class="nes-enablesound">').appendTo(self.controls),
                     zoom: $('<input type="button" value="zoom in" class="nes-zoom">').appendTo(self.controls),
-                    save: $('<input type="button" value="save" class="nes-save">').appendTo(self.controls),
-                    load: $('<input type="button" value="load" class="nes-load">').appendTo(self.controls)
+                    save: $('<input type="button" value="save" disabled="disabled" class="nes-save">').appendTo(self.controls),
+                    load: $('<input type="button" value="load" disabled="disabled" class="nes-load">').appendTo(self.controls)
                 };
                 self.status = $('<p class="nes-status">Booting up...</p>').appendTo(self.root);
                 self.root.appendTo(parent);
                 
+		// hide load/save if localStorage is not supported
+		self.supportsLocalStorage = supportsLocalStorage();
+		if (!self.supportsLocalStorage) {
+		  self.buttons.save.hide();
+		  self.buttons.load.hide();
+		}
+
                 /*
                  * ROM loading
                  */
@@ -86,6 +104,7 @@ if (typeof jQuery !== 'undefined') {
                         var state = self.nes.toJSON();
                         localStorage[self.romName] = JSON.stringify(state);
                         self.buttons.pause.click();
+			self.buttons.load.removeAttr("disabled");
                     }
                 });
                 
@@ -266,6 +285,15 @@ if (typeof jQuery !== 'undefined') {
                     else {
                         this.buttons.sound.attr("value", "enable sound");
                     }
+		    
+		    if (this.supportsLocalStorage) {
+		      this.buttons.save.removeAttr("disabled");
+		      if (localStorage[this.romName])
+			this.buttons.load.removeAttr("disabled");
+		      else
+			this.buttons.load.attr("disabled","disabled");
+		    }
+
                 },
             
                 updateStatus: function(s) {
