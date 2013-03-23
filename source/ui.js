@@ -47,8 +47,17 @@ if (typeof jQuery !== 'undefined') {
                  * Create UI
                  */
                 self.root = $('<div></div>');
-                self.screen = $('<canvas class="nes-screen" width="256" height="240"></canvas>').appendTo(self.root);
-                
+		self.screenContainer = $('<div class="ui-widget-container"></div>').appendTo(self.root);
+                self.screen = $('<canvas id="screen_canvas" class="nes-screen" width="256" height="240"></canvas>').appendTo(self.screenContainer);
+		self.screenContainer.css("border", "1px solid grey");
+		self.screenContainer.css("padding", "12px");
+		self.screenContainer.css("height", "240px");
+		self.screenContainer.css("width", "256px");
+		self.screenContainer.resizable({ 
+		  aspectRatio: 256/240,
+		  alsoResize: "#screen_canvas"
+		});
+
                 if (!self.screen[0].getContext) {
                     parent.html("Your browser doesn't support the <code>&lt;canvas&gt;</code> tag. Try Google Chrome, Safari, Opera or Firefox!");
                     return;
@@ -62,7 +71,6 @@ if (typeof jQuery !== 'undefined') {
                     pause: $('<input type="button" value="pause" class="nes-pause" disabled="disabled">').appendTo(self.controls),
                     restart: $('<input type="button" value="restart" class="nes-restart" disabled="disabled">').appendTo(self.controls),
                     sound: $('<input type="button" value="enable sound" class="nes-enablesound">').appendTo(self.controls),
-                    zoom: $('<input type="button" value="zoom in" class="nes-zoom">').appendTo(self.controls),
                     save: $('<input type="button" value="save" disabled="disabled" class="nes-save">').appendTo(self.controls),
                     load: $('<input type="button" value="load" disabled="disabled" class="nes-load">').appendTo(self.controls)
                 };
@@ -137,26 +145,6 @@ if (typeof jQuery !== 'undefined') {
                     }
                 });
         
-                self.zoomed = false;
-                self.buttons.zoom.click(function() {
-                    if (self.zoomed) {
-                        self.screen.animate({
-                            width: '256px',
-                            height: '240px'
-                        });
-                        self.buttons.zoom.attr("value", "zoom in");
-                        self.zoomed = false;
-                    }
-                    else {
-                        self.screen.animate({
-                            width: '512px',
-                            height: '480px'
-                        });
-                        self.buttons.zoom.attr("value", "zoom out");
-                        self.zoomed = true;
-                    }
-                });
-                
                 /*
                  * Lightgun experiments with mouse
                  * (Requires jquery.dimensions.js)
