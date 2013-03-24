@@ -68,11 +68,12 @@ if (typeof jQuery !== 'undefined') {
                 
                 self.controls = $('<div class="nes-controls"></div>').appendTo(self.root);
                 self.buttons = {
-                    pause: $('<input type="button" value="pause" class="nes-pause" disabled="disabled">').appendTo(self.controls),
-                    restart: $('<input type="button" value="restart" class="nes-restart" disabled="disabled">').appendTo(self.controls),
-                    sound: $('<input type="button" value="enable sound" class="nes-enablesound">').appendTo(self.controls),
-                    save: $('<input type="button" value="save" disabled="disabled" class="nes-save">').appendTo(self.controls),
-                    load: $('<input type="button" value="load" disabled="disabled" class="nes-load">').appendTo(self.controls)
+                    pause: $('<input type="button" value="pause" class="btn nes-pause" disabled="disabled">').appendTo(self.controls),
+                    restart: $('<input type="button" value="restart" class="btn nes-restart" disabled="disabled">').appendTo(self.controls),
+                    sound: $('<input type="button" value="enable sound" class="btn nes-enablesound">').appendTo(self.controls),
+                    save: $('<input type="button" value="save" disabled="disabled" class="btn nes-save">').appendTo(self.controls),
+                    load: $('<input type="button" value="load" disabled="disabled" class="btn nes-load">').appendTo(self.controls),
+		    help: $('<input type="button" value="help" class="btn">').appendTo(self.controls)
                 };
                 self.status = $('<p class="nes-status">Booting up...</p>').appendTo(self.root);
                 self.root.appendTo(parent);
@@ -83,6 +84,10 @@ if (typeof jQuery !== 'undefined') {
 		  self.buttons.save.hide();
 		  self.buttons.load.hide();
 		}
+
+		self.buttons.help.click(function() {
+		   $("#help").modal('show');
+		});
 
                 /*
                  * ROM loading

@@ -27,57 +27,79 @@
         <!--[if lt IE 7]>
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
         <![endif]-->
-    <h1>JSNES</h1>
     
-    <div id="emulator"></div>
-    
-    <h2>Controls</h2>
-    <table id="controls">
-        <tr>
-            <th>Button</th>
-            <th>Player 1</th>
-            <th>Player 2</th>
-        </tr>
-        <tr>
-            <td>Left</td>
-            <td>Left</td>
-            <td>Num-4</td>
-        <tr>
-            <td>Right</td>
-            <td>Right</td>
-            <td>Num-6</td>
-        </tr>
-        <tr>
-            <td>Up</td>
-            <td>Up</td>
-            <td>Num-8</td>
-        </tr>
-        <tr>
-            <td>Down</td>
-            <td>Down</td>
-            <td>Num-2</td>
-        </tr>
-        <tr>
-            <td>A</td>
-            <td>X</td>
-            <td>Num-7</td>
-        </tr>
-        <tr>
-            <td>B</td>
-            <td>Z/Y</td>
-            <td>Num-9</td>
-        </tr>
-        <tr>
-            <td>Start</td>
-            <td>Enter</td>
-            <td>Num-1</td>
-        </tr>
-        <tr>
-            <td>Select</td>
-            <td>Ctrl</td>
-            <td>Num-3</td>
-        </tr>
-    </table>
+        <div class='container'>
+            <div class='navbar navbar-fixed-top'>
+               <div class='navbar-inner'>
+	          <span class='brand'>JSNES</span>
+	          <ul class='nav'>
+	             <li><a href='https://github.com/ae-code/jsnes'>GitHub</a></li>
+	             <li><a href='https://github.com/bfirsh/jsnes'>Original</a></li>
+	          </ul>
+	       </div>
+            </div>
+
+            <div id="emulator"></div>
+        </div>
+
+        <div class='modal hide fade' id='help'>
+           <div class='modal-header'>
+	      <button type='button' class='close' data-dismiss='modal' aria-hidden='true'>&times;</button>
+	      <h3>Controls</h3>
+	   </div>
+           <div class='modal-body'>
+	      <table>
+	         <tr>
+                    <th>Button</th>
+                    <th>Player 1</th>
+                    <th>Player 2</th>
+	         </tr>
+	         <tr>
+                    <td>Left</td>
+                    <td>Left</td>
+                    <td>Num-4</td>
+	         </tr>
+	         <tr>
+                    <td>Right</td>
+                    <td>Right</td>
+                    <td>Num-6</td>
+	         </tr>
+	         <tr>
+                    <td>Up</td>
+                    <td>Up</td>
+                    <td>Num-8</td>
+	         </tr>
+	         <tr>
+                    <td>Down</td>
+	            <td>Down</td>
+                    <td>Num-2</td>
+	         </tr>
+	         <tr>
+                    <td>A</td>
+                    <td>X</td>
+                    <td>Num-7</td>
+	         </tr>
+	         <tr>
+                    <td>B</td>
+                    <td>Z/Y</td>
+                    <td>Num-9</td>
+	         </tr>
+                 <tr>
+                    <td>Start</td>
+                    <td>Enter</td>
+                    <td>Num-1</td>
+	         </tr>
+	         <tr>
+                    <td>Select</td>
+                    <td>Ctrl</td>
+                    <td>Num-3</td>
+	        </tr>
+	     </table>
+	  </div>
+          <div class='modal-footer'>
+	     <a href='#' class='btn btn-primary' data-dismiss='modal'>Close</a>
+	  </div>
+       </div>
 
     <script src="js/vendor/jquery-1.9.1.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/vendor/jquery-ui-1.10.2.min.js" type="text/javascript" charset="utf-8"></script>
